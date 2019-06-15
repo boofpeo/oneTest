@@ -1,0 +1,19 @@
+git clone git@复制远程 Desktop 桌面
+git pull 从远程库获取到本地
+git push origin master 将本地提交到远程库，先获取，解决冲突后提交
+
+mkdir 创建文件夹
+
+git init 创建本地仓库 工作区 暂存区 仓库区
+
+git add 文件1 文件2 到暂存区 目录 空格 ./
+
+git commit -m "第一次提交" 到仓库区
+
+git log 日志
+
+git log --pretty=oneline
+
+git reset 版本 当前版本HEAD HEAD^ HEAD^^ HEAD -100(n)
+
+git chechkout 文件名

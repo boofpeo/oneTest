@@ -1,0 +1,137 @@
+重入锁：
+
+
+	ArrayList           HashMap                              HashSet  不安全
+    Vector,Stack        HashTable(value key 不为null)    Collections.synchronizedXXX(List,Set,Map)              线程安全
+
+
+	并发容器：J.U.C Java.Util.Collections() aotmic locks tools collections executor
+
+	CopyOnWriteArrayList 消耗内存 gc 容易触发gc add 会复制然后指向新List地址 读不加锁，写加锁
+
+	HashSet TreeSet  CopyOnWriteArraySet ConcurrentSkipListSet(不支持Null)
+
+	HashMap TreeMap(有序key) ConcurrentHashMap ConcurrentSkipListMap
+
+
+
+	安全共享对象策略：
+	    线程限制--线程独占；
+		共享只读--只读安全；
+		线程安全对象 ---已经同步的对象或者容器，调用无需加锁；
+		被守护对象---需要获取特点的锁来访问。
+    AQS：
+	    AbstractQueuedSynchronizer
+
+
+    CountDownLatch 一个等待其他
+
+	Semaphore  .acquire .release if(.tryAcquire())尝试获取许可
+
+	CyclicBarrier   等待加1  循环使用 互相等待
+
+	ReentrantLock ReentrantReadWriteLock 悲观锁，写入的时候，不允许有读锁的存在
+	StampedLock
+
+	Condition  await 等待释放锁  signalAll 唤醒不不释放锁，需要Unlock
+
+	FutureTask
+
+
+	Fork/Join 1.7 不抛出，不IO ，不同步
+
+
+	BlockingQueue  -> ArrayBlockingQueue 从尾部插入，从头部移除 DalayQueue LinkedBlockingQueue 先入先出 PriorityBlockingQueue(可以为null	)
+						SynchronousQueue只允许一个元素
+	execute() submit() -> execute() + future
+	getTaskCount() 已执行和未执行的总数
+
+	getPoolSize()
+	getActionCount()
+	newCachedThreadPool ->可缓存的线程池
+	newFixedThreadPool  ->
+	newScheduledThreadPool ->
+	newSingleThreadExecutor ->
+
+
+
+	死锁：
+	   互斥条件：
+	   请求和保持条件：
+	   不剥夺条件：
+	   环路等待条件；
+
+	加锁顺序，超时释放，死锁检测 随机线程优先级，死锁回退
+
+
+	 使用本地变量 使用不可变类 最小化锁的作用域范围 使用线程池， 宁可使用同步也不要使用wait和notify 使用BlockingQueue 生产者和消费者模式来控制
+	 使用并发集合而不是加锁同步集合
+	 使用Samaphore创建有界的访问  宁可使用同步代码块也不要使用同步方法 避免使用静态变量
+	 Spring 单例 初始化时注入创建，生命周期是应用结束
+
+
+	 HashMap 数组加链表   1.8 数组加红黑树
+
+
+	 扩容：
+		垂直扩容：提高系统部件能力
+		水平扩容：增加更多系统成员来实现
+
+		读操作的扩展：memcache、redis、CDN等缓存
+		写操作的扩展：Cassandra、Hbase等
+
+	缓存：
+	    命中率：命中数/(命中数+没有命中数) 命中即可以通过缓存获取想要的数据
+		最大元素（空间） 缓存清空策略 FIFO LFU LRU 过期时间 随机
+
+		本地缓存： 编程实现 、Guava Cache(LRU策略)
+		分布式缓存： Memcache Redis
+		  限流 降级 熔断 多级缓存
+		缓存一致性问题 缓存并发问题 缓存穿透现象 缓存的雪崩现象
+
+		实时数据存放入redis 不变的数据
+
+
+	消息队列，通信手段
+	    业务无关  只做消息分发
+		FIFO
+		容灾 节点的动态增删和消息的持久化
+		性能 吞吐量提升，系统内部通信效率提升
+
+		好处：
+		业务解耦 通知 无需等待结果
+		最终一致性
+		广播
+		错峰与流控
+	拆分原则：
+	    业务优先
+		循序渐进 拆分 测试
+		兼顾技术 重构、分层
+		可靠测试
+
+		应用之间的通信 RPC(dubbo)
+
+	限流应用：
+	    计数器算法
+		滑动窗口算法
+		漏桶算法
+		令牌桶算法
+	服务降级与服务熔断
+	服务无法满足，那么就给予一个默认的返回 服务降级 自动降级 超时
+
+	数据库切库、分库、分表
+	切库，主库、从库 读写分离，从库实时查询 注解Spring AOP 自定义注解 -代码实现，
+                                                                      -给予多个链接
+																	  -支持多数据源
+																	  -分库
+	分表： 横向（水平）分表 与纵向（垂直）分表
+	横向：同样的表结构
+	纵向：数据活跃度分离
+	mybatis分表插件 shardbatis2.0
+
+	高可用：
+	任务调用系统分布式：
+		elastic-job +zookeeper
+	主备切换：
+	    apache curator + zookeeper 分布式锁实现   主一直想要拥有锁，备一直想获取锁
+	监控报警机制

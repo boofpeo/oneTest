@@ -1,4 +1,4 @@
-package com.zhangyu.oneTest.code.designMode;
+package com.zhangyu.oneTest.code.designMode.Singleton;
 
 
 public class Singleton {
